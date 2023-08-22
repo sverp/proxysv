@@ -11,12 +11,12 @@ app.use(cors(option))
 const port = 3000;
 
 
-
-app.get('/proxy', async (req, res) => {
+//get all manga with similar name.
+app.get('/proxy/:manga', async (req, res) => {
   try {
    // console.log(req.params)
-    let key = req.params.manga;
-    const remoteResponse = await axios.get(`https://manganato.com/advanced_search?s=all&page=1&keyw=bleach}`); 
+    let param = req.params.manga;
+    const remoteResponse = await axios.get(`https://mangapanda.in/search?q=${param}`); 
     res.json(remoteResponse.data);
 
   } catch (error) {
@@ -24,6 +24,31 @@ app.get('/proxy', async (req, res) => {
   }
 });
 
+//get manga info and chapter list
+app.get('/proxy/manga/:manga_list', async (req, res) => {
+  try {
+   // console.log(req.params)
+    let param = req.params.manga_list;
+    const remoteResponse = await axios.get(`https://mangapanda.in/manga/${param}`); 
+    res.json(remoteResponse.data);
+
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+
+app.get('/proxy/manga_list/:chapter', async (req, res) => {
+  try {
+   // console.log(req.params)
+    let param = req.params.chapter;
+    const remoteResponse = await axios.get(`https://mangapanda.in/${param}`); 
+    res.json(remoteResponse.data);
+
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
 
 
 
